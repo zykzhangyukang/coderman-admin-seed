@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.HandlerMethod;
@@ -71,7 +72,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                     result.setCode(ResultCode.NOT_FOUND).setMessage("接口 [" + request.getRequestURI() + "] 不存在");
                 } else if (e instanceof ServletException) {
                     result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
-                }else if(e instanceof ConstraintViolationException){//处理请求参数格式错误 @RequestParam上validate失败后抛出
+                } else if(e instanceof ConstraintViolationException){//处理请求参数格式错误 @RequestParam上validate失败后抛出
                     String message = ((ConstraintViolationException) e).getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining());
                     result.setCode(ResultCode.FAIL).setMessage(message);
                 } else {
@@ -99,7 +100,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     private void responseResult(HttpServletResponse response, Result result) {
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Content-type", "application/json;charset=UTF-8");
-        response.setStatus(200);
+        response.setStatus(HttpStatus.OK.value());
         try {
             response.getWriter().write(JSON.toJSONString(result));
         } catch (IOException ex) {

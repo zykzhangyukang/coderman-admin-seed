@@ -13,9 +13,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
- * 解决跨域请求的
+ * 解决跨域请求
  */
-
 @Configuration
 public class CorsConfig {
     private CorsConfiguration buildConfig() {

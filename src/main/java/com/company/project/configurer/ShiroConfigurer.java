@@ -20,7 +20,6 @@ import java.util.Map;
 @Configuration
 public class ShiroConfigurer {
 
-
     @Value("${spring.profiles.active}")
     private String env;//当前激活的配置文件
 

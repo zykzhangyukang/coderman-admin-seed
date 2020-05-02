@@ -8,8 +8,5 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="sex" jdbcType="INTEGER" property="sex" />
-    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
   </resultMap>
 </mapper>

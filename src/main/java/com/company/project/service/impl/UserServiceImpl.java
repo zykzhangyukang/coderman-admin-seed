@@ -11,12 +11,12 @@ import javax.annotation.Resource;
 
 
 /**
- * Created by CodeGenerator on 2020/03/27.
+ * Created by CodeGenerator on 2020/05/02.
  */
 @Service
 @Transactional
 public class UserServiceImpl extends AbstractService<User> implements UserService {
     @Resource
-    private UserMapper userMapper;
+    private UserMapper tbUserMapper;
 
 }
