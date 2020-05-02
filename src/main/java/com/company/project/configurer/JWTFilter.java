@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 @Component
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
+    private final Logger logger = LoggerFactory.getLogger(BasicHttpAuthenticationFilter.class);
 
     /**
      * 认证之前执行该方法

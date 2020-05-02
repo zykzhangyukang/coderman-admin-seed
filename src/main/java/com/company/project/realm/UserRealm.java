@@ -7,11 +7,15 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MyRealm extends AuthorizingRealm {
+public class UserRealm extends AuthorizingRealm {
 
+
+    private final Logger logger = LoggerFactory.getLogger(UserRealm.class);
 
     /**
      * 大坑！，必须重写此方法，不然Shiro会报错
@@ -26,6 +30,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        logger.info("用户授权---");
         return null;
     }
 
@@ -34,6 +39,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
+        logger.info("用户认证---");
         return null;
     }
 }
