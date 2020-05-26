@@ -1,19 +1,24 @@
 package com.company.project.realm;
 
 import com.company.project.configurer.JWTToken;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import com.company.project.model.User;
+import com.company.project.service.UserService;
+import com.company.project.utils.JWTUtils;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserRealm extends AuthorizingRealm {
 
+
+    @Autowired
+    private UserService userService;
 
     private final Logger logger = LoggerFactory.getLogger(UserRealm.class);
 
@@ -39,7 +44,27 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
-        logger.info("用户认证---");
-        return null;
+        // 解密获得username，用于和数据库进行对比
+        String token = (String) auth.getCredentials();
+        String username = JWTUtils.getUsername(token);
+
+        if (username == null) {
+            throw new AuthenticationException(" token错误，请重新登入！");
+        }
+
+        User userBean = userService.findUserByUsername(username);
+
+        if (userBean == null) {
+            throw new AccountException("账号不存在!");
+        }
+        if(JWTUtils.isExpire(token)){
+            throw new AuthenticationException(" token过期，请重新登入！");
+        }
+
+        if (! JWTUtils.verify(token, username, userBean.getPassword())) {
+            throw new CredentialsException("密码错误!");
+        }
+
+        return new SimpleAuthenticationInfo(userBean, token, getName());
     }
 }
